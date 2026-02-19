@@ -1,0 +1,90 @@
+.box-svg {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.box-svg--closed {
+  transform: scale(1);
+}
+
+.box-svg--closed:hover {
+  transform: scale(1.05);
+}
+
+.box-svg--open {
+  animation: boxOpenReveal 0.6s ease-out forwards;
+  cursor: default;
+}
+
+.box-svg--player {
+  animation: playerBoxPulse 2s ease-in-out infinite;
+}
+
+/* Box opening animation */
+@keyframes boxOpenReveal {
+  0% {
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotateY(90deg) scale(0.9);
+    opacity: 0.7;
+  }
+  100% {
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Player box pulse effect */
+@keyframes playerBoxPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+  }
+}
+
+/* Hover effects */
+.box-svg:hover:not(.box-svg--open) {
+  filter: brightness(1.1) drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+/* Disabled state */
+.box-svg--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Success/win state */
+.box-svg--winner {
+  animation: winnerGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes winnerGlow {
+  from {
+    filter: brightness(1) drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+  }
+  to {
+    filter: brightness(1.2) drop-shadow(0 0 20px rgba(255, 215, 0, 1));
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .box-svg {
+    max-width: 80px;
+    max-height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .box-svg {
+    max-width: 60px;
+    max-height: 60px;
+  }
+}
