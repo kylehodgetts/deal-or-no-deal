@@ -22,6 +22,52 @@ A faithful recreation of the classic TV game show "Deal or No Deal" built with m
 - **Visual Feedback**: Clear indicators for eliminated, remaining, and your box
 - **Complete Game Flow**: Start, play, deal/no deal decisions, and game over states
 
+## 🔧 CI/CD & Quality Assurance
+
+This project uses a **single consolidated GitHub Actions workflow** (`main.yml`) that handles all aspects of continuous integration and deployment:
+
+### 🚀 Unified CI/CD Pipeline
+
+**✅ Quality Gate (All PRs & Pushes)**
+- **ESLint**: Code quality and style enforcement
+- **TypeScript**: Type safety validation
+- **Jest Tests**: Unit & integration test execution
+- **Coverage Reporting**: Comprehensive test coverage metrics
+
+**📦 Build Process**
+- **Production Build**: Vite build with optimizations
+- **Artifact Storage**: Build files stored for 30 days
+- **Build Validation**: Ensures deployable artifacts
+
+**🌍 Automated Deployment**
+- **GitHub Pages**: Automatic deployment from `main` branch
+- **Zero-downtime**: Seamless production updates
+- **Environment Protection**: Dedicated Pages environment
+
+### 💬 Smart PR Comments
+
+For every pull request, the workflow automatically comments with:
+- ✅/❌ **Status overview** for all quality checks
+- 📊 **Coverage metrics** with color-coded badges (🟢 Excellent ≥80%, 🟡 Good ≥60%, 🔴 Needs improvement <60%)
+- 🔍 **Detailed failure reports** with expandable error logs
+- 🔄 **Updates on new commits** (replaces previous comment)
+
+### 🎯 Quality Standards
+
+- **Test Coverage**: Target 80%+ for all metrics
+- **Type Safety**: 100% TypeScript compliance required
+- **Code Quality**: ESLint with strict rules (max 1 warning allowed)
+- **Build Success**: Production builds must complete successfully
+
+### ⚡ Performance Features
+
+- **Smart Concurrency**: Cancels previous runs on new commits
+- **Conditional Steps**: Only deploys from `main` branch pushes
+- **Artifact Caching**: Speeds up builds with dependency caching
+- **Parallel Jobs**: Test and build stages run efficiently
+
+This streamlined approach ensures **consistent quality**, **fast feedback**, and **reliable deployments** while minimizing GitHub Actions minutes usage.
+
 ## 🛠 Tech Stack
 
 - **React 18** - Modern UI framework with hooks

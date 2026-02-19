@@ -7,6 +7,7 @@ export default defineConfig({
   base: '/deal-or-no-deal/',
   build: {
     outDir: 'dist',
+    assetsDir: 'assets',
     sourcemap: true
   }
 })

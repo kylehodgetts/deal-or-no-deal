@@ -109,7 +109,7 @@ describe('GameControls', () => {
     );
 
     expect(screen.getByText("Banker's Offer")).toBeInTheDocument();
-    expect(screen.getByText('$50,000')).toBeInTheDocument();
+    expect(screen.getByText('£50K')).toBeInTheDocument();
     expect(screen.getByText('Deal or No Deal?')).toBeInTheDocument();
     expect(screen.getByText('DEAL')).toBeInTheDocument();
     expect(screen.getByText('NO DEAL')).toBeInTheDocument();
@@ -207,7 +207,7 @@ describe('GameControls', () => {
     );
 
     expect(screen.getByText('Game Over!')).toBeInTheDocument();
-    expect(screen.getByText('You won: $75,000')).toBeInTheDocument();
+    expect(screen.getByText('You won: £75K')).toBeInTheDocument();
     expect(screen.getByText('No deal! You kept your original box!')).toBeInTheDocument();
     expect(screen.getByText('Play Again')).toBeInTheDocument();
   });

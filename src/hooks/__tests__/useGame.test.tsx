@@ -168,7 +168,7 @@ describe('useGame', () => {
       
       expect(remainingValues).toHaveLength(24); // 26 total - 1 player - 1 opened
       expect(openedValues).toHaveLength(1);
-      expect(remainingValues.every(val => MONEY_VALUES.includes(val as any))).toBe(true);
+      expect(remainingValues.every(val => (MONEY_VALUES as readonly number[]).includes(val))).toBe(true);
     });
 
     it('should correctly determine if box can be opened', () => {

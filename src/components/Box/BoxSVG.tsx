@@ -84,8 +84,8 @@ const BoxSVG: React.FC<BoxSVGProps> = ({
           x="1"
           y="1"
           rx="8"
-          fill="#2c3e50"
-          stroke="#34495e"
+          fill="#111111"
+          stroke="#E5A93C"
           strokeWidth="2"
         />
         
@@ -140,8 +140,8 @@ const BoxSVG: React.FC<BoxSVGProps> = ({
         {/* Gradients */}
         <defs>
           <linearGradient id="openGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#4ecdc4" />
-            <stop offset="100%" stopColor="#45b7b8" />
+            <stop offset="0%" stopColor="#0B3C5D" />
+            <stop offset="100%" stopColor="#111111" />
           </linearGradient>
         </defs>
       </svg>
@@ -149,8 +149,8 @@ const BoxSVG: React.FC<BoxSVGProps> = ({
   }
 
   // Closed box
-  const boxColor = isPlayerBox ? '#e74c3c' : '#3498db';
-  const boxColorHover = isPlayerBox ? '#c0392b' : '#2980b9';
+  const boxColor = isPlayerBox ? '#E5A93C' : '#C8102E';
+  const boxColorHover = isPlayerBox ? '#d4941f' : '#a50e25';
   const currentBoxColor = isHovered ? boxColorHover : boxColor;
 
   return (
@@ -168,8 +168,8 @@ const BoxSVG: React.FC<BoxSVGProps> = ({
         cy="115"
         rx="50"
         ry="8"
-        fill="#2c3e50"
-        opacity="0.3"
+        fill="#111111"
+        opacity="0.5"
       />
       
       {/* Main box body */}
@@ -253,24 +253,24 @@ const BoxSVG: React.FC<BoxSVGProps> = ({
       <defs>
         {/* Normal box gradient */}
         <linearGradient id="boxGradient-normal" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#74b9ff" />
-          <stop offset="100%" stopColor="#0984e3" />
+          <stop offset="0%" stopColor="#E5A93C" />
+          <stop offset="100%" stopColor="#C8102E" />
         </linearGradient>
         
         {/* Player box gradient */}
         <linearGradient id="boxGradient-player" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#fd79a8" />
-          <stop offset="100%" stopColor="#e84393" />
+          <stop offset="0%" stopColor="#E5A93C" />
+          <stop offset="100%" stopColor="#d4941f" />
         </linearGradient>
         
         {/* Box shadow */}
         <filter id="boxShadow">
-          <feDropShadow dx="2" dy="2" stdDeviation="3" floodColor="#2c3e50" floodOpacity="0.3"/>
+          <feDropShadow dx="2" dy="2" stdDeviation="3" floodColor="#111111" floodOpacity="0.6"/>
         </filter>
         
         {/* Text shadow */}
         <filter id="textShadow">
-          <feDropShadow dx="1" dy="1" stdDeviation="1" floodColor="#2c3e50" floodOpacity="0.5"/>
+          <feDropShadow dx="1" dy="1" stdDeviation="1" floodColor="#111111" floodOpacity="0.8"/>
         </filter>
       </defs>
     </svg>

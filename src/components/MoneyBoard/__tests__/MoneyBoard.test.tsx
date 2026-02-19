@@ -89,8 +89,8 @@ describe('MoneyBoard', () => {
     );
 
     // Check some sample formatted values are displayed (as shown in the formatMoney function)
-    expect(screen.getByText('1¢')).toBeInTheDocument();
-    expect(screen.getByText('$1M')).toBeInTheDocument(); // 1,000,000 is formatted as $1M
-    expect(screen.getByText('$500K')).toBeInTheDocument(); // 500,000 is formatted as $500K
+    expect(screen.getByText('1p')).toBeInTheDocument();
+    expect(screen.getByText('£1M')).toBeInTheDocument(); // 1,000,000 is formatted as £1M
+    expect(screen.getByText('£500K')).toBeInTheDocument(); // 500,000 is formatted as £500K
   });
 });

@@ -1,11 +1,11 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Arial', 'Segoe UI', system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: dark;
+  color: #E0E0E0;
+  background-color: #111111;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,15 +17,139 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background: 
+    /* Studio spotlight effects - responsive sizes */
+    radial-gradient(ellipse 60vw 30vh at 50% 20%, rgba(229, 169, 60, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 40vw 25vh at 20% 80%, rgba(11, 60, 93, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse 40vw 25vh at 80% 80%, rgba(200, 16, 46, 0.1) 0%, transparent 50%),
+    /* Main dramatic gradient */
+    linear-gradient(135deg, #0B3C5D 0%, #1a1a1a 30%, #111111 70%, #000000 100%);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Studio atmosphere overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    /* Subtle noise texture for TV studio feel */
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      rgba(17, 17, 17, 0.03) 1px,
+      transparent 2px
+    ),
+    /* Vignette effect */
+    radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.3) 100%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive background adjustments */
+@media (max-width: 768px) {
+  body {
+    background: 
+      /* Smaller spotlight effects for mobile */
+      radial-gradient(ellipse 80vw 40vh at 50% 15%, rgba(229, 169, 60, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60vw 30vh at 15% 85%, rgba(11, 60, 93, 0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 60vw 30vh at 85% 85%, rgba(200, 16, 46, 0.08) 0%, transparent 60%),
+      /* Simplified gradient for mobile performance */
+      linear-gradient(135deg, #0B3C5D 0%, #111111 60%, #000000 100%);
+    background-attachment: scroll; /* Better mobile performance */
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    background: 
+      /* Even simpler for small screens */
+      radial-gradient(ellipse 100vw 50vh at 50% 10%, rgba(229, 169, 60, 0.1) 0%, transparent 70%),
+      linear-gradient(135deg, #0B3C5D 0%, #111111 50%, #000000 100%);
+    background-attachment: scroll;
+  }
+  
+  body::before {
+    /* Reduce complexity on very small screens */
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.2) 100%);
+  }
+}
+
+/* Large screen enhancements */
+@media (min-width: 1200px) {
+  body {
+    background: 
+      /* Enhanced studio effects for large screens */
+      radial-gradient(ellipse 50vw 25vh at 50% 20%, rgba(229, 169, 60, 0.18) 0%, transparent 45%),
+      radial-gradient(ellipse 35vw 20vh at 15% 80%, rgba(11, 60, 93, 0.25) 0%, transparent 45%),
+      radial-gradient(ellipse 35vw 20vh at 85% 80%, rgba(200, 16, 46, 0.12) 0%, transparent 45%),
+      /* Additional atmospheric layers */
+      radial-gradient(ellipse 80vw 40vh at 30% 50%, rgba(17, 17, 17, 0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 80vw 40vh at 70% 50%, rgba(17, 17, 17, 0.1) 0%, transparent 60%),
+      linear-gradient(135deg, #0B3C5D 0%, #1a1a1a 25%, #111111 75%, #000000 100%);
+  }
+}
+
+@media (min-width: 1600px) {
+  body {
+    background: 
+      /* Ultra-wide screen studio lighting */
+      radial-gradient(ellipse 40vw 20vh at 50% 20%, rgba(229, 169, 60, 0.2) 0%, transparent 40%),
+      radial-gradient(ellipse 30vw 15vh at 20% 80%, rgba(11, 60, 93, 0.3) 0%, transparent 40%),
+      radial-gradient(ellipse 30vw 15vh at 80% 80%, rgba(200, 16, 46, 0.15) 0%, transparent 40%),
+      /* Side lighting effects */
+      radial-gradient(ellipse 25vw 50vh at 5% 50%, rgba(11, 60, 93, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse 25vw 50vh at 95% 50%, rgba(200, 16, 46, 0.1) 0%, transparent 50%),
+      linear-gradient(135deg, #0B3C5D 0%, #1a1a1a 20%, #111111 80%, #000000 100%);
+  }
+}
+
+/* Performance optimizations */
+body,
+body::before {
+  will-change: background;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* GPU acceleration hints */
+#root {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    background-attachment: scroll;
+  }
+  
+  body::before {
+    background: 
+      /* Simplified static noise */
+      radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.2) 100%);
+  }
 }

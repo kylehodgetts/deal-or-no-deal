@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGame } from '../../hooks/useGame';
 import { MONEY_VALUES, formatMoney } from '../../utils/gameLogic';
+import { getAmountColor } from '../../utils/colors';
 import styles from './MoneyBoard.module.css';
 
 export interface MoneyBoardProps {
@@ -24,15 +25,16 @@ const MoneyBoard: React.FC<MoneyBoardProps> = ({ className }) => {
       return 'eliminated';
     }
 
-    // Check if this value is in the player's selected box
-    if (state.playerBoxId !== null) {
+    // Only reveal player box value when game is over
+    // During gameplay, player box value should remain hidden for suspense
+    if (state.gameStatus === 'game-over' && state.playerBoxId !== null) {
       const playerBox = state.boxes.find(box => box.id === state.playerBoxId);
       if (playerBox && playerBox.value === value) {
         return 'playerBox';
       }
     }
 
-    // Otherwise it's still remaining in play
+    // Otherwise it's still remaining in play (including hidden player box value)
     return 'remaining';
   };
 
@@ -41,10 +43,16 @@ const MoneyBoard: React.FC<MoneyBoardProps> = ({ className }) => {
       <div className={styles.columnTitle}>{title}</div>
       {values.map(value => {
         const status = getAmountStatus(value);
+        const amountColor = getAmountColor(value, status === 'eliminated');
+        
         return (
           <div
             key={value}
             className={`${styles.amount} ${styles[status]}`}
+            style={{ 
+              color: status === 'playerBox' ? '#E5A93C' : amountColor,
+              borderColor: status === 'playerBox' ? '#E5A93C' : amountColor 
+            }}
             data-testid={`money-${value}`}
             aria-label={`${formatMoney(value)} - ${status === 'eliminated' ? 'eliminated' : status === 'playerBox' ? 'your box' : 'still in play'}`}
           >

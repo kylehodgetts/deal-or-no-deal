@@ -1,5 +1,7 @@
 import React from 'react';
 import { useGame } from '../../hooks/useGame';
+import { getButtonColor } from '../../utils/colors';
+import { formatMoney } from '../../utils/gameLogic';
 import styles from './GameControls.module.css';
 
 export interface GameControlsProps {
@@ -41,6 +43,7 @@ const GameControls: React.FC<GameControlsProps> = ({ className = '' }) => {
           <p>Test your luck in the ultimate game of chance!</p>
           <button
             className={`${styles.gameControls__button} ${styles.gameControls__button_primary}`}
+            style={{ backgroundColor: getButtonColor('start') }}
             onClick={handleStartGame}
           >
             Start Game
@@ -54,7 +57,7 @@ const GameControls: React.FC<GameControlsProps> = ({ className = '' }) => {
           <div className={styles.gameControls__offer}>
             <h2>Banker's Offer</h2>
             <div className={styles.gameControls__offerAmount}>
-              ${state.currentOffer.toLocaleString()}
+              {formatMoney(state.currentOffer)}
             </div>
             <p className={styles.gameControls__question}>
               Deal or No Deal?
@@ -62,12 +65,14 @@ const GameControls: React.FC<GameControlsProps> = ({ className = '' }) => {
             <div className={styles.gameControls__buttons}>
               <button
                 className={`${styles.gameControls__button} ${styles.gameControls__button_deal}`}
+                style={{ backgroundColor: getButtonColor('deal') }}
                 onClick={handleDeal}
               >
                 DEAL
               </button>
               <button
                 className={`${styles.gameControls__button} ${styles.gameControls__button_noDeal}`}
+                style={{ backgroundColor: getButtonColor('no-deal') }}
                 onClick={handleNoDeal}
               >
                 NO DEAL
@@ -83,7 +88,7 @@ const GameControls: React.FC<GameControlsProps> = ({ className = '' }) => {
           <div className={styles.gameControls__gameOver}>
             <h2>Game Over!</h2>
             <div className={styles.gameControls__winnings}>
-              You won: ${state.finalWinnings?.toLocaleString() || '0'}
+              You won: {formatMoney(state.finalWinnings || 0)}
             </div>
             <p className={styles.gameControls__result}>
               {state.gameResult === 'deal' 
@@ -93,6 +98,7 @@ const GameControls: React.FC<GameControlsProps> = ({ className = '' }) => {
             </p>
             <button
               className={`${styles.gameControls__button} ${styles.gameControls__button_primary}`}
+              style={{ backgroundColor: getButtonColor('action') }}
               onClick={handleResetGame}
             >
               Play Again

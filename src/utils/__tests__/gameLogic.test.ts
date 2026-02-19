@@ -24,24 +24,24 @@ describe('gameLogic', () => {
   });
 
   describe('formatMoney', () => {
-    it('should format cents correctly', () => {
-      expect(formatMoney(0.01)).toBe('1¢');
-      expect(formatMoney(0.25)).toBe('25¢');
+    it('should format pence correctly', () => {
+      expect(formatMoney(0.01)).toBe('1p');
+      expect(formatMoney(0.25)).toBe('25p');
     });
 
-    it('should format regular dollars', () => {
-      expect(formatMoney(100)).toBe('$100');
-      expect(formatMoney(500.5)).toBe('$500.50');
+    it('should format regular pounds', () => {
+      expect(formatMoney(100)).toBe('£100');
+      expect(formatMoney(500.5)).toBe('£500.50');
     });
 
     it('should format thousands', () => {
-      expect(formatMoney(1000)).toBe('$1K');
-      expect(formatMoney(25000)).toBe('$25K');
+      expect(formatMoney(1000)).toBe('£1K');
+      expect(formatMoney(25000)).toBe('£25K');
     });
 
     it('should format millions', () => {
-      expect(formatMoney(1000000)).toBe('$1M');
-      expect(formatMoney(2500000)).toBe('$2.5M');
+      expect(formatMoney(1000000)).toBe('£1M');
+      expect(formatMoney(2500000)).toBe('£2.5M');
     });
   });
 

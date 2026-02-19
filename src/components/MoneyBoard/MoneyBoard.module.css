@@ -1,18 +1,21 @@
 .moneyBoard {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: linear-gradient(135deg, #0B3C5D, #111111);
   border-radius: 12px;
   padding: 20px;
   margin: 20px 0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border: 2px solid #E5A93C;
 }
 
 .title {
-  color: white;
+  color: #E5A93C;
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .amounts {
@@ -28,70 +31,70 @@
 }
 
 .columnTitle {
-  color: #ffd700;
+  color: #E0E0E0;
   font-size: 1.1rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 8px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .amount {
-  background: linear-gradient(145deg, #ffffff, #f0f0f0);
-  border: 2px solid #ddd;
+  background: linear-gradient(145deg, #E0E0E0, #cccccc);
+  border: 2px solid;
   border-radius: 8px;
   padding: 8px 12px;
   text-align: center;
   font-weight: bold;
   font-size: 0.9rem;
-  color: #333;
+  color: #111111;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
 }
 
 .amount.eliminated {
-  background: linear-gradient(145deg, #ffcccb, #ff9999);
-  border-color: #ff6b6b;
-  color: #d63031;
+  background: linear-gradient(145deg, #666666, #555555);
+  border-color: #444444;
+  color: #cccccc;
   text-decoration: line-through;
-  opacity: 0.7;
+  opacity: 0.6;
   transform: scale(0.95);
 }
 
 .amount.remaining {
-  background: linear-gradient(145deg, #d4edda, #a3d977);
-  border-color: #28a745;
-  color: #155724;
   animation: pulse 2s infinite;
-  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
 }
 
 .amount.playerBox {
-  background: linear-gradient(145deg, #fff3cd, #ffeaa7);
-  border-color: #ffc107;
-  color: #856404;
+  background: linear-gradient(145deg, #E5A93C, #d4941f);
+  border-color: #E5A93C;
+  color: #111111;
   animation: glow 3s ease-in-out infinite alternate;
   font-weight: 900;
+  transform: scale(1.05);
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
   50% {
-    box-shadow: 0 0 25px rgba(40, 167, 69, 0.6);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
   100% {
-    box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 }
 
 @keyframes glow {
   from {
-    box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+    box-shadow: 0 0 20px rgba(229, 169, 60, 0.6);
   }
   to {
-    box-shadow: 0 0 30px rgba(255, 193, 7, 0.8);
+    box-shadow: 0 0 30px rgba(229, 169, 60, 0.9);
   }
 }
 

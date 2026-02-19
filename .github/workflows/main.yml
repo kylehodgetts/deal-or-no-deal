@@ -1,0 +1,247 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test & Quality Checks
+    runs-on: ubuntu-latest
+    outputs:
+      coverage-lines: ${{ steps.coverage.outputs.lines }}
+      coverage-functions: ${{ steps.coverage.outputs.functions }}
+      coverage-branches: ${{ steps.coverage.outputs.branches }}
+      coverage-statements: ${{ steps.coverage.outputs.statements }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        id: lint
+        run: |
+          npm run lint > lint-output.txt 2>&1
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: TypeScript check
+        id: typecheck
+        run: |
+          npx tsc --noEmit > typecheck-output.txt 2>&1
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Run tests with coverage
+        id: test
+        run: |
+          npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text --watchAll=false > test-output.txt 2>&1
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Extract coverage
+        id: coverage
+        run: |
+          if [ -f coverage/coverage-summary.json ]; then
+            LINES=$(cat coverage/coverage-summary.json | jq '.total.lines.pct')
+            FUNCTIONS=$(cat coverage/coverage-summary.json | jq '.total.functions.pct')
+            BRANCHES=$(cat coverage/coverage-summary.json | jq '.total.branches.pct')
+            STATEMENTS=$(cat coverage/coverage-summary.json | jq '.total.statements.pct')
+            echo "lines=$LINES" >> $GITHUB_OUTPUT
+            echo "functions=$FUNCTIONS" >> $GITHUB_OUTPUT
+            echo "branches=$BRANCHES" >> $GITHUB_OUTPUT
+            echo "statements=$STATEMENTS" >> $GITHUB_OUTPUT
+          else
+            echo "lines=0" >> $GITHUB_OUTPUT
+            echo "functions=0" >> $GITHUB_OUTPUT
+            echo "branches=0" >> $GITHUB_OUTPUT
+            echo "statements=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: coverage/
+          retention-days: 30
+
+      - name: Generate PR comment (PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          # Determine overall status
+          OVERALL_STATUS="✅ PASSED"
+          OVERALL_EMOJI="🎉"
+
+          if [ "${{ steps.lint.outputs.exit_code }}" != "0" ] || \
+             [ "${{ steps.typecheck.outputs.exit_code }}" != "0" ] || \
+             [ "${{ steps.test.outputs.exit_code }}" != "0" ]; then
+            OVERALL_STATUS="❌ FAILED"
+            OVERALL_EMOJI="💥"
+          fi
+
+          # Status icons
+          LINT_STATUS="✅"; [ "${{ steps.lint.outputs.exit_code }}" != "0" ] && LINT_STATUS="❌"
+          TYPECHECK_STATUS="✅"; [ "${{ steps.typecheck.outputs.exit_code }}" != "0" ] && TYPECHECK_STATUS="❌"
+          TEST_STATUS="✅"; [ "${{ steps.test.outputs.exit_code }}" != "0" ] && TEST_STATUS="❌"
+
+          # Coverage colors
+          get_coverage_color() {
+            if (( $(echo "$1 >= 80" | bc -l) )); then echo "🟢";
+            elif (( $(echo "$1 >= 60" | bc -l) )); then echo "🟡";
+            else echo "🔴"; fi
+          }
+
+          LINES_COLOR=$(get_coverage_color ${{ steps.coverage.outputs.lines }})
+          FUNCTIONS_COLOR=$(get_coverage_color ${{ steps.coverage.outputs.functions }})
+          BRANCHES_COLOR=$(get_coverage_color ${{ steps.coverage.outputs.branches }})
+          STATEMENTS_COLOR=$(get_coverage_color ${{ steps.coverage.outputs.statements }})
+
+          cat << EOF > pr-comment.md
+          ## ${OVERALL_EMOJI} PR Quality Report - ${OVERALL_STATUS}
+
+          ### 🔍 Quality Checks
+          | Check | Status | Result |
+          |-------|---------|--------|
+          | ${LINT_STATUS} **ESLint** | $([ "${{ steps.lint.outputs.exit_code }}" = "0" ] && echo "Passed" || echo "Failed") | Code quality & style |
+          | ${TYPECHECK_STATUS} **TypeScript** | $([ "${{ steps.typecheck.outputs.exit_code }}" = "0" ] && echo "Passed" || echo "Failed") | Type safety |
+          | ${TEST_STATUS} **Tests** | $([ "${{ steps.test.outputs.exit_code }}" = "0" ] && echo "Passed" || echo "Failed") | Unit & integration tests |
+
+          ### 📊 Test Coverage
+          | Metric | Coverage | Status |
+          |--------|----------|--------|
+          | ${LINES_COLOR} **Lines** | ${{ steps.coverage.outputs.lines }}% | $([ $(echo "${{ steps.coverage.outputs.lines }} >= 80" | bc -l) = 1 ] && echo "Excellent" || echo "Needs improvement") |
+          | ${FUNCTIONS_COLOR} **Functions** | ${{ steps.coverage.outputs.functions }}% | $([ $(echo "${{ steps.coverage.outputs.functions }} >= 80" | bc -l) = 1 ] && echo "Excellent" || echo "Needs improvement") |
+          | ${BRANCHES_COLOR} **Branches** | ${{ steps.coverage.outputs.branches }}% | $([ $(echo "${{ steps.coverage.outputs.branches }} >= 80" | bc -l) = 1 ] && echo "Excellent" || echo "Needs improvement") |
+          | ${STATEMENTS_COLOR} **Statements** | ${{ steps.coverage.outputs.statements }}% | $([ $(echo "${{ steps.coverage.outputs.statements }} >= 80" | bc -l) = 1 ] && echo "Excellent" || echo "Needs improvement") |
+
+          EOF
+
+          if [ "$OVERALL_STATUS" = "❌ FAILED" ]; then
+            echo "### 🚨 Failure Details" >> pr-comment.md
+            [ "${{ steps.lint.outputs.exit_code }}" != "0" ] && echo "<details><summary>❌ Linting Issues</summary><pre>$(cat lint-output.txt)</pre></details>" >> pr-comment.md
+            [ "${{ steps.typecheck.outputs.exit_code }}" != "0" ] && echo "<details><summary>❌ TypeScript Issues</summary><pre>$(cat typecheck-output.txt)</pre></details>" >> pr-comment.md
+            [ "${{ steps.test.outputs.exit_code }}" != "0" ] && echo "<details><summary>❌ Test Failures</summary><pre>$(cat test-output.txt)</pre></details>" >> pr-comment.md
+          else
+            echo "🎉 **All checks passed!** This PR is ready for review." >> pr-comment.md
+          fi
+
+          echo "" >> pr-comment.md
+          echo "---" >> pr-comment.md
+          echo "*🤖 Report generated at $(date -u) • [View workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})*" >> pr-comment.md
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const comment = fs.readFileSync('pr-comment.md', 'utf8');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('PR Quality Report')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+            }
+
+      - name: Fail workflow if quality checks failed
+        if: |
+          steps.lint.outputs.exit_code != '0' ||
+          steps.typecheck.outputs.exit_code != '0' ||
+          steps.test.outputs.exit_code != '0'
+        run: |
+          echo "❌ Quality checks failed"
+          exit 1
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: dist/
+          retention-days: 30
+
+      - name: Setup Pages (main branch only)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/configure-pages@v4
+
+      - name: Upload to Pages (main branch only)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

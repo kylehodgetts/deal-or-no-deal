@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '../App';
@@ -24,11 +23,11 @@ describe('Deal or No Deal - Integration Tests', () => {
     render(<App />);
 
     // Check various money values are displayed
-    expect(screen.getByText('1¢')).toBeInTheDocument();
-    expect(screen.getByText('$1M')).toBeInTheDocument();
-    expect(screen.getByText('$500K')).toBeInTheDocument();
-    expect(screen.getByText('$1')).toBeInTheDocument();
-    expect(screen.getByText('$100K')).toBeInTheDocument();
+    expect(screen.getByText('1p')).toBeInTheDocument();
+    expect(screen.getByText('£1M')).toBeInTheDocument();
+    expect(screen.getByText('£500K')).toBeInTheDocument();
+    expect(screen.getByText('£1')).toBeInTheDocument();
+    expect(screen.getByText('£100K')).toBeInTheDocument();
   });
 
   it('should start the game and show box selection interface', async () => {

@@ -5,6 +5,10 @@
   padding: 2rem;
   max-width: 600px;
   margin: 0 auto;
+  background: linear-gradient(135deg, rgba(17, 17, 17, 0.9), rgba(11, 60, 93, 0.8));
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border: 2px solid #E5A93C;
 }
 
 .gameControls__section {
@@ -15,158 +19,112 @@
 .gameControls__section h2 {
   font-size: 2rem;
   margin: 0 0 1rem 0;
-  color: #495057;
+  color: #E5A93C;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .gameControls__section p {
   font-size: 1.1rem;
-  color: #6c757d;
+  color: #E0E0E0;
   margin: 0 0 2rem 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .gameControls__button {
   font-size: 1.2rem;
   font-weight: bold;
   padding: 1rem 2rem;
-  border: none;
+  border: 2px solid;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
   min-width: 140px;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .gameControls__button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  filter: brightness(1.1);
 }
 
 .gameControls__button:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .gameControls__button_primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.gameControls__button_primary:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6c63ff 100%);
+  border-color: #E5A93C;
 }
 
 .gameControls__button_deal {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: white;
-}
-
-.gameControls__button_deal:hover {
-  background: linear-gradient(135deg, #218838 0%, #1ea080 100%);
+  border-color: #C8102E;
 }
 
 .gameControls__button_noDeal {
-  background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
-  color: white;
-}
-
-.gameControls__button_noDeal:hover {
-  background: linear-gradient(135deg, #c82333 0%, #e66304 100%);
+  border-color: #0B3C5D;
 }
 
 .gameControls__offer {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  border: 2px solid #e9ecef;
-  animation: slideInUp 0.6s ease-out;
-}
-
-@keyframes slideInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  margin: 2rem 0;
 }
 
 .gameControls__offerAmount {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: bold;
-  color: #28a745;
+  color: #E5A93C;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   margin: 1rem 0;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  background: linear-gradient(45deg, #E5A93C, #f4c246);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .gameControls__question {
-  font-size: 1.5rem !important;
-  color: #495057 !important;
+  font-size: 1.5rem;
+  color: #E0E0E0;
   font-weight: bold;
-  margin: 1.5rem 0 !important;
+  margin: 2rem 0;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .gameControls__buttons {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .gameControls__gameOver {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  border: 2px solid #e9ecef;
-  animation: gameOverAppear 0.8s ease-out;
-}
-
-@keyframes gameOverAppear {
-  0% {
-    opacity: 0;
-    transform: scale(0.8) rotateY(-180deg);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.1) rotateY(-90deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotateY(0deg);
-  }
+  margin: 2rem 0;
 }
 
 .gameControls__winnings {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  color: #28a745;
+  color: #E5A93C;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   margin: 1rem 0;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
 .gameControls__result {
-  font-size: 1.2rem !important;
-  color: #495057 !important;
-  margin: 1.5rem 0 2rem 0 !important;
-  font-weight: 600;
+  font-size: 1.2rem;
+  color: #E0E0E0;
+  margin: 1rem 0 2rem 0;
 }
 
-/* Responsive design */
+/* Mobile responsiveness */
 @media (max-width: 768px) {
   .gameControls {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   
   .gameControls__section h2 {
@@ -174,64 +132,20 @@
   }
   
   .gameControls__offerAmount {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
   
-  .gameControls__winnings {
-    font-size: 2rem;
+  .gameControls__question {
+    font-size: 1.2rem;
   }
   
   .gameControls__buttons {
-    flex-direction: column;
-    align-items: center;
+    gap: 1rem;
   }
   
   .gameControls__button {
-    width: 100%;
-    max-width: 200px;
-  }
-  
-  .gameControls__question {
-    font-size: 1.2rem !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .gameControls__offer,
-  .gameControls__gameOver {
-    padding: 1rem;
-  }
-  
-  .gameControls__offerAmount {
-    font-size: 2rem;
-  }
-  
-  .gameControls__winnings {
-    font-size: 1.5rem;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .gameControls__section h2 {
-    color: #f8f9fa;
-  }
-  
-  .gameControls__section p {
-    color: #ced4da;
-  }
-  
-  .gameControls__offer,
-  .gameControls__gameOver {
-    background: #343a40;
-    border-color: #495057;
-  }
-  
-  .gameControls__question {
-    color: #f8f9fa !important;
-  }
-  
-  .gameControls__result {
-    color: #ced4da !important;
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+    min-width: 120px;
   }
 }

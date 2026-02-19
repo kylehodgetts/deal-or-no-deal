@@ -1,22 +1,21 @@
-// Original US Deal or No Deal money values (26 cases)
+// Authentic UK Deal or No Deal money values (26 amounts in pounds)
 export const MONEY_VALUES = [
-  0.01, 1, 5, 10, 25, 50, 75, 100, 200, 300, 400, 500, 750,
-  1000, 5000, 10000, 25000, 50000, 75000, 100000, 200000,
-  300000, 400000, 500000, 750000, 1000000
+  0.01, 1, 5, 10, 50, 100, 250, 500, 750, 1000, 3000, 5000, 10000,
+  15000, 20000, 35000, 50000, 75000, 100000, 150000, 200000, 250000, 300000, 400000, 500000, 1000000
 ] as const;
 
-// Helper function to format money values for display
+// Helper function to format money values for display (UK pounds)
 export const formatMoney = (value: number): string => {
   if (value < 1) {
-    return `${Math.round(value * 100)}¢`;
+    return `${Math.round(value * 100)}p`;
   } else if (value >= 1000000) {
     const millions = value / 1000000;
-    return `$${millions % 1 === 0 ? millions.toString() : millions.toFixed(1)}M`;
+    return `£${millions % 1 === 0 ? millions.toString() : millions.toFixed(1)}M`;
   } else if (value >= 1000) {
     const thousands = value / 1000;
-    return `$${thousands % 1 === 0 ? thousands.toString() : thousands.toFixed(1)}K`;
+    return `£${thousands % 1 === 0 ? thousands.toString() : thousands.toFixed(1)}K`;
   } else {
-    return `$${value.toFixed(value % 1 === 0 ? 0 : 2)}`;
+    return `£${value.toFixed(value % 1 === 0 ? 0 : 2)}`;
   }
 };
 

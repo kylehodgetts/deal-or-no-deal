@@ -24,7 +24,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ onBoxClick, className = '' }) => 
         dispatch({ type: 'SELECT_PLAYER_BOX', boxId });
         break;
         
-      case 'playing':
+      case 'playing': {
         dispatch({ type: 'OPEN_BOX', boxId });
         
         // Check if we should show banker offer after this box opens
@@ -52,6 +52,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ onBoxClick, className = '' }) => 
           }
         }
         break;
+      }
     }
   };
 
