@@ -49,8 +49,8 @@ const Box: React.FC<BoxProps> = ({
           isPlayerBox={box.isPlayerBox}
           size={size}
         />
-        
-        <span className="sr-only">
+
+        <span className={styles.srOnly}>
           Box {box.id} opened, contains {box.value}
         </span>
       </div>
@@ -78,9 +78,9 @@ const Box: React.FC<BoxProps> = ({
         isDisabled={isDisabled}
         size={size}
       />
-      
+
       {/* Accessibility: Screen reader content */}
-      <span className="sr-only">
+      <span className={styles.srOnly}>
         Box {box.id}, {isClickable ? 'clickable' : 'not available'}
       </span>
     </div>
